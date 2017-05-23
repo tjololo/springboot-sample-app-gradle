@@ -1,0 +1,16 @@
+def appName = "springboot-sample-app-gradle"
+def project = ""
+def pom
+node {
+    stage("Initialize") {
+        project = env.PROJECT_NAME
+    }
+}
+node("slave-gradle") {
+    stage("Checkout") {
+        git url: "http://gogs:3000/gogs/springboot-sample-app-gradle.git", branch: "cicd-sample"
+    }
+    stage("Build JAR") {
+        sh "gradle check"
+    }
+}
